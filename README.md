@@ -39,7 +39,7 @@ This project exists to reduce that risk with a narrow, auditable tool that prior
 - no raw sensitive values in default reports
 - no surrounding-context preview in default output
 - no persistent side effects by default
-- no third-party runtime dependencies in v1
+- no third-party runtime dependencies
 - code small enough to audit by hand
 
 ### Security invariants
@@ -51,8 +51,8 @@ This project exists to reduce that risk with a narrow, auditable tool that prior
 5. No file writes without explicit `--output`
 6. All output paths must be `resolve()`-checked before use
 7. `--force` only removes the non-empty overwrite guard; it never bypasses path or symlink protections
-8. No deanonymize support in v1
-9. No third-party runtime dependencies in v1
+8. No deanonymize support
+9. No third-party runtime dependencies
 10. UTF-8 only input policy (UTF-8 BOM accepted)
 
 ### Supported inputs
@@ -65,12 +65,12 @@ This project exists to reduce that risk with a narrow, auditable tool that prior
   - `.csv`
   - `.tsv`
 
-Unsupported in v1:
+Currently unsupported:
 - PDF / DOCX / image / audio / video
 - restore / deanonymize flows
 - generic entropy scanning by default
 
-### What it detects in v1
+### What it detects by default
 
 High-confidence defaults:
 - email addresses
@@ -186,7 +186,7 @@ OpenClaw 用户很常见的动作是：
 - 默认 JSON 不包含原始敏感值
 - 默认不输出上下文预览
 - 默认不产生持久化副产物
-- v1 不依赖第三方运行时依赖
+- 不依赖第三方运行时依赖
 - 代码足够小，方便人工审计
 
 ### 安全不变量
@@ -198,8 +198,8 @@ OpenClaw 用户很常见的动作是：
 5. 未显式指定 `--output` 时不得写文件
 6. 任何输出路径都必须先 `resolve()` 再校验
 7. `--force` 只解除覆盖保护，不能绕过路径与 symlink 防护
-8. v1 不支持 deanonymize / restore
-9. v1 不依赖第三方运行时依赖
+8. 不支持 deanonymize / restore
+9. 不依赖第三方运行时依赖
 10. 输入编码固定为 UTF-8（可接受 UTF-8 BOM）
 
 ### 支持的输入
@@ -212,12 +212,12 @@ OpenClaw 用户很常见的动作是：
   - `.csv`
   - `.tsv`
 
-v1 明确不支持：
+当前明确不支持：
 - PDF / DOCX / 图片 / 音频 / 视频
 - 还原 / 反脱敏流程
 - 默认开启的高熵检测
 
-### v1 默认检测范围
+### 默认检测范围
 
 高置信度、低歧义：
 - 邮箱
