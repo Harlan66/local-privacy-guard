@@ -84,25 +84,37 @@ def write_output(path: Path, content: str, *, force: bool = False) -> None:
     if parent.is_symlink():
         raise GuardError("output parent cannot be a symlink")
 
-    if path.exists() and not force:
+    exists = path.exists()
+    allow_truncate_existing = False
+    if exists:
         try:
-            if path.stat().st_size > 0:
-                raise GuardError("refusing to overwrite existing non-empty file without --force")
+            size = path.stat().st_size
         except FileNotFoundError:
-            pass
+            exists = False
+            size = 0
+        else:
+            if force:
+                allow_truncate_existing = True
+            elif size == 0:
+                allow_truncate_existing = True
+            else:
+                raise GuardError("refusing to overwrite existing non-empty file without --force")
 
     flags = os.O_WRONLY | os.O_CREAT
     if hasattr(os, "O_NOFOLLOW"):
         flags |= os.O_NOFOLLOW
-    if path.exists() and force:
+    if allow_truncate_existing:
         flags |= os.O_TRUNC
     else:
         flags |= os.O_EXCL
 
-    with tightened_umask():
-        fd = os.open(str(path), flags, 0o600)
-        with io.open(fd, mode="w", encoding="utf-8", closefd=True) as handle:
-            handle.write(content)
+    try:
+        with tightened_umask():
+            fd = os.open(str(path), flags, 0o600)
+            with io.open(fd, mode="w", encoding="utf-8", closefd=True) as handle:
+                handle.write(content)
+    except FileExistsError as exc:
+        raise GuardError("refusing to overwrite existing file without explicit allowance") from exc
 
 
 def json_dumps(payload: dict) -> str:

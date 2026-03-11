@@ -12,5 +12,8 @@
 - added stable logo paths for GitHub repo and Pages
 - corrected project positioning to be explicitly OpenClaw-user-first
 - replaced mixed-language page copy with click-switch bilingual landing page
+- fixed empty-file overwrite edge case in output guard behavior
+- gave `--stdout` an explicit mirror-to-stdout role when `--output` is used
+- aligned docs to treat `docs/index.html` as the primary landing page
 
 #huanyuan

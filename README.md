@@ -139,6 +139,7 @@ python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
 - `--json` and `--stdout` are mutually exclusive
 - no `--output` → write to stdout only
 - `--output` without `--json` → write redacted text to file
+- `--output` with `--stdout` → write redacted text to file and mirror it to stdout
 - `--output` with `--json` → write JSON to file
 - `--force` only allows overwrite of an existing ordinary file after all path checks pass
 
@@ -261,6 +262,7 @@ python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
 - `--json` 与 `--stdout` 互斥
 - 不带 `--output` 时，只输出到 stdout
 - `--output` 且不带 `--json` → 写脱敏文本
+- `--output` 且带 `--stdout` → 写脱敏文本到文件，同时镜像输出到 stdout
 - `--output` 且带 `--json` → 写 JSON
 - `--force` 只允许在全部路径校验通过后覆盖普通文件
 

@@ -2,6 +2,13 @@
 
 All notable changes to `local-privacy-guard` will be documented in this file.
 
+## 0.1.3 - 2026-03-11
+
+- fixed empty-file overwrite behavior to match documented guard semantics
+- gave `--stdout` a concrete role: mirror redacted text to stdout when `--output` is used
+- aligned documentation references around `docs/index.html` as the primary landing page
+- added regression tests for overwrite guards and stdout mirroring
+
 ## 0.1.2 - 2026-03-11
 
 - rewrote project positioning to focus explicitly on OpenClaw users

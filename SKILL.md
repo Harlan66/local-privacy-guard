@@ -71,8 +71,9 @@ Avoid passing sensitive plaintext directly as a shell argument when possible.
 ## Output rules
 
 - `--json` and `--stdout` are mutually exclusive
-- Without `--output`, results go only to stdout
-- With `--output` and no `--json`, write redacted text to file
+- Without `--output`, redacted text goes to stdout by default
+- With `--output` and no `--json`, redacted text is written to file
+- With `--output` and `--stdout`, redacted text is both written to file **and mirrored to stdout**
 - With `--output` and `--json`, write JSON to file
 
 Default JSON output must not contain raw matches.
@@ -92,6 +93,7 @@ Default JSON output must not contain raw matches.
 
 - `README.md` — project overview
 - `SECURITY.md` — security model and disclosure notes
-- `docs/index.md` — GitHub Pages landing page
+- `docs/index.html` — primary GitHub Pages landing page
+- `docs/index.md` — lightweight markdown mirror / pointer
 
 #huanyuan

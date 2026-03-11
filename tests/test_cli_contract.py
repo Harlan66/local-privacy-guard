@@ -40,6 +40,21 @@ class CliContractTests(unittest.TestCase):
             self.assertIn("[[EMAIL:", content)
             self.assertNotIn("alice@example.com", content)
 
+    def test_stdout_can_mirror_text_when_output_is_used(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp) / "input.md"
+            dst = Path(tmp) / "output.md"
+            src.write_text("email alice@example.com", encoding="utf-8")
+            proc = subprocess.run(
+                ["python3", str(SCRIPT), "--input", str(src), "--output", str(dst), "--stdout"],
+                text=True,
+                capture_output=True,
+                check=True,
+                cwd=str(ROOT),
+            )
+            self.assertIn("[[EMAIL:", proc.stdout)
+            self.assertTrue(dst.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

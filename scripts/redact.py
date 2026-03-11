@@ -47,18 +47,20 @@ def main() -> int:
         redacted_text = redact_text(text, detections)
         payload = render_json(text, detections, input_type=input_type, debug=args.debug)
 
+        text_output = redacted_text + ("\n" if not redacted_text.endswith("\n") else "")
+
         if args.output:
             output_path = validate_output_path(args.output)
-            content = json_dumps(payload) if args.json else redacted_text + ("\n" if not redacted_text.endswith("\n") else "")
+            content = json_dumps(payload) if args.json else text_output
             write_output(output_path, content, force=args.force)
+            if args.stdout and not args.json:
+                sys.stdout.write(text_output)
             return 0
 
         if args.json:
             sys.stdout.write(json_dumps(payload))
         else:
-            sys.stdout.write(redacted_text)
-            if not redacted_text.endswith("\n"):
-                sys.stdout.write("\n")
+            sys.stdout.write(text_output)
         return 0
     except GuardError as exc:
         print(f"error: {exc}", file=sys.stderr)
