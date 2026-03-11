@@ -2,6 +2,13 @@
 
 All notable changes to `local-privacy-guard` will be documented in this file.
 
+## 0.1.1 - 2026-03-11
+
+- added generated project logo via Nano Banana Pro
+- added bilingual README (English + 中文)
+- updated GitHub Pages landing page to bilingual layout
+- added logo assets for repository and docs site
+
 ## 0.1.0 - 2026-03-11
 
 Initial build:

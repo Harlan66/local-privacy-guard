@@ -1,23 +1,33 @@
+<p align="center">
+  <img src="assets/logo.png" alt="local-privacy-guard logo" width="160" />
+</p>
+
 # local-privacy-guard
 
-Pure-local privacy redaction for text and simple text files.
+**EN** — Pure-local privacy redaction for text and simple text files.  
+**中文** — 一个纯本地、零联网、面向文本与简单文本文件的隐私脱敏工具。
 
-`local-privacy-guard` is a minimal, auditable privacy-redaction skill and Python CLI designed for one job: **replace high-confidence sensitive values locally, with zero network access and safe defaults**.
+---
 
-## Why this exists
+## English
+
+### What it is
+
+`local-privacy-guard` is a minimal, auditable privacy-redaction skill and Python CLI designed for one job:
+
+> replace high-confidence sensitive values locally, with zero network access and safe defaults.
+
+### Why it exists
 
 Most privacy tools optimize for coverage and convenience. This project optimizes for:
 
-- **local-only execution**
-- **default-irreversible redaction**
-- **no raw sensitive values in default reports**
-- **no persistent side effects by default**
-- **no third-party runtime dependencies in v1**
-- **small enough to audit by hand**
-
-## Security posture
-
-This project follows a strict “small, local, auditable” model.
+- local-only execution
+- default-irreversible redaction
+- no raw sensitive values in default reports
+- no surrounding-context preview in default output
+- no persistent side effects by default
+- no third-party runtime dependencies in v1
+- small enough to audit by hand
 
 ### Security invariants
 
@@ -32,7 +42,7 @@ This project follows a strict “small, local, auditable” model.
 9. No third-party runtime dependencies in v1
 10. UTF-8 only input policy (UTF-8 BOM accepted)
 
-## Supported inputs
+### Supported inputs
 
 - `stdin` (preferred)
 - UTF-8 / UTF-8 BOM files:
@@ -47,7 +57,7 @@ Unsupported in v1:
 - restore / deanonymize flows
 - generic entropy scanning by default
 
-## What it detects in v1
+### What it detects in v1
 
 High-confidence defaults:
 - email addresses
@@ -61,33 +71,33 @@ Not enabled by default:
 - generic high-entropy token detection
 - semantic names / entities
 
-## Quick start
+### Quick start
 
-### Read from stdin
+#### Read from stdin
 
 ```bash
 cat secret.txt | python3 scripts/redact.py --stdin --json
 ```
 
-### Read from file and print redacted text
+#### Read from file and print redacted text
 
 ```bash
 python3 scripts/redact.py --input ./note.md
 ```
 
-### Write redacted text to file
+#### Write redacted text to file
 
 ```bash
 python3 scripts/redact.py --input ./note.md --output ./note.redacted.md
 ```
 
-### Write JSON to file
+#### Write JSON to file
 
 ```bash
 python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
 ```
 
-## Output example
+### Output example
 
 ```json
 {
@@ -106,12 +116,12 @@ python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
       "confidence": "high"
     }
   ],
-  "redacted_text": "联系我：[[EMAIL:7f3a91c24e6b]]",
+  "redacted_text": "Contact me at [[EMAIL:7f3a91c24e6b]]",
   "warnings": []
 }
 ```
 
-## CLI rules
+### CLI rules
 
 - `--json` and `--stdout` are mutually exclusive
 - no `--output` → write to stdout only
@@ -119,13 +129,13 @@ python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
 - `--output` with `--json` → write JSON to file
 - `--force` only allows overwrite of an existing ordinary file after all path checks pass
 
-## Testing
+### Testing
 
 ```bash
 python3 -m unittest discover -s tests -v
 ```
 
-## Repository structure
+### Repository structure
 
 ```text
 local-privacy-guard/
@@ -135,29 +145,131 @@ local-privacy-guard/
 ├── SECURITY.md
 ├── LICENSE.txt
 ├── .gitignore
+├── assets/
 ├── docs/
-│   └── index.md
 ├── core/
-│   ├── __init__.py
-│   ├── policy.py
-│   ├── io_guard.py
-│   ├── patterns.py
-│   ├── detector.py
-│   └── renderer.py
 ├── scripts/
-│   └── redact.py
 └── tests/
-    └── ...
 ```
 
-## GitHub Pages
+### GitHub Pages
 
-A simple project landing page lives in `docs/index.md`.
+- Project site: <https://harlan66.github.io/local-privacy-guard/>
 
-If publishing on GitHub Pages, serve from the `docs/` folder on the default branch.
-
-## License
+### License
 
 MIT.
+
+---
+
+## 中文
+
+### 这是什么
+
+`local-privacy-guard` 是一个最小化、可审计的隐私脱敏 skill + Python CLI，目标非常单一：
+
+> 在完全本地、零联网、默认安全的前提下，把高置信度敏感信息替换掉。
+
+### 为什么做它
+
+大多数隐私工具追求的是“覆盖更多、用起来更方便”；这个项目追求的是：
+
+- 纯本地执行
+- 默认不可逆脱敏
+- 默认 JSON 不包含原始敏感值
+- 默认不输出上下文片段预览
+- 默认不产生持久化副产物
+- v1 不依赖第三方运行时依赖
+- 代码体量足够小，便于人工审计
+
+### 安全不变量
+
+1. 主流程不得进行网络 I/O
+2. 默认模式不得输出原始敏感值
+3. 默认模式不得输出原文上下文预览
+4. 默认模式不得产生持久化副产物
+5. 未显式指定 `--output` 时不得写文件
+6. 任何输出路径都必须先 `resolve()` 再校验
+7. `--force` 只解除覆盖保护，不能绕过路径与 symlink 防护
+8. v1 不支持 deanonymize / restore
+9. v1 不依赖第三方运行时依赖
+10. 输入编码固定为 UTF-8（可接受 UTF-8 BOM）
+
+### 支持的输入
+
+- `stdin`（推荐）
+- UTF-8 / UTF-8 BOM 文件：
+  - `.txt`
+  - `.md`
+  - `.json`
+  - `.csv`
+  - `.tsv`
+
+v1 明确不支持：
+- PDF / DOCX / 图片 / 音频 / 视频
+- 还原 / 反脱敏流程
+- 默认开启的高熵检测
+
+### v1 默认检测范围
+
+高置信度、低歧义：
+- 邮箱
+- 保守手机号 / 电话号
+- IPv4
+- URL 中的敏感 query 参数
+- 常见 API key 模式
+- 保守的强格式卡号 / 证件类字符串
+
+默认不启用：
+- 通用高熵 token 检测
+- 语义级姓名 / 实体识别
+
+### 快速开始
+
+#### 从 stdin 读取
+
+```bash
+cat secret.txt | python3 scripts/redact.py --stdin --json
+```
+
+#### 从文件读取并输出脱敏文本
+
+```bash
+python3 scripts/redact.py --input ./note.md
+```
+
+#### 写出脱敏文本到文件
+
+```bash
+python3 scripts/redact.py --input ./note.md --output ./note.redacted.md
+```
+
+#### 写出 JSON 到文件
+
+```bash
+python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
+```
+
+### CLI 规则
+
+- `--json` 与 `--stdout` 互斥
+- 不带 `--output` 时，只输出到 stdout
+- `--output` 且不带 `--json` → 写脱敏文本
+- `--output` 且带 `--json` → 写 JSON
+- `--force` 只允许在全部路径校验通过后覆盖普通文件
+
+### 测试
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+### GitHub Pages
+
+- 项目页面：<https://harlan66.github.io/local-privacy-guard/>
+
+### 许可证
+
+MIT。
 
 #huanyuan
