@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>local-privacy-guard</title>
+  <style>
+    :root {
+      --bg: #f6f8f8;
+      --panel: #ffffff;
+      --ink: #14343a;
+      --muted: #5d7378;
+      --line: #d7e2e4;
+      --accent: #0f8c8c;
+      --accent-2: #2d5f88;
+      --shadow: 0 10px 30px rgba(20, 52, 58, 0.08);
+      --radius: 18px;
+      --max: 980px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f6f8f8 0%, #edf4f5 100%);
+      color: var(--ink);
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 40px 20px 72px; }
+    .hero, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 40px 28px; text-align: center; }
+    .hero img { width: 132px; height: 132px; border-radius: 28px; }
+    h1 { margin: 18px 0 10px; font-size: 42px; line-height: 1.05; }
+    .sub { color: var(--muted); font-size: 18px; margin: 0 auto; max-width: 760px; line-height: 1.6; }
+    .switcher {
+      display: inline-flex; gap: 8px; margin-top: 22px; padding: 6px;
+      background: #eef4f4; border-radius: 999px; border: 1px solid var(--line);
+    }
+    .switcher button {
+      border: 0; background: transparent; color: var(--ink); cursor: pointer;
+      padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 700;
+    }
+    .switcher button.active { background: var(--ink); color: white; }
+    .links { margin-top: 18px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .links a {
+      text-decoration: none; color: white; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      padding: 11px 16px; border-radius: 999px; font-weight: 700;
+    }
+    .panel { margin-top: 24px; padding: 26px; }
+    .lang { display: none; }
+    .lang.active { display: block; }
+    h2 { margin: 0 0 12px; font-size: 24px; }
+    h3 { margin: 22px 0 10px; font-size: 18px; }
+    ul { margin: 8px 0 0 20px; line-height: 1.8; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+    }
+    pre {
+      background: #0f1e22; color: #e8f7f8; padding: 16px; border-radius: 14px; overflow: auto;
+    }
+    .note { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <img src="assets/logo.png" alt="local-privacy-guard logo" />
+      <h1>local-privacy-guard</h1>
+      <p class="sub" data-en="A pure-local privacy redaction tool for OpenClaw users." data-zh="一个为 OpenClaw 用户设计的纯本地隐私脱敏工具。"></p>
+      <div class="switcher" aria-label="language switcher">
+        <button id="btn-en" class="active" type="button">English</button>
+        <button id="btn-zh" type="button">中文</button>
+      </div>
+      <div class="links">
+        <a href="https://github.com/Harlan66/local-privacy-guard">GitHub</a>
+        <a href="https://github.com/Harlan66/local-privacy-guard/blob/main/README.md">README</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div id="lang-en" class="lang active">
+        <h2>What it is</h2>
+        <p><strong>local-privacy-guard</strong> helps OpenClaw users protect privacy before sending content to external models, sharing logs, exporting notes, or posting debugging output.</p>
+        <p>Its purpose is intentionally narrow: replace high-confidence sensitive values locally, with zero network access and safe defaults.</p>
+
+        <h3>Security model</h3>
+        <ul>
+          <li>zero network I/O in the main path</li>
+          <li>default-irreversible output</li>
+          <li>no raw sensitive matches in default JSON</li>
+          <li>no context preview by default</li>
+          <li>no persistence without explicit output</li>
+          <li>no third-party runtime dependencies in v1</li>
+        </ul>
+
+        <h3>Supported inputs</h3>
+        <ul>
+          <li>stdin</li>
+          <li>UTF-8 / UTF-8 BOM <code>.txt</code>, <code>.md</code>, <code>.json</code>, <code>.csv</code>, <code>.tsv</code></li>
+        </ul>
+
+        <h3>Quick start</h3>
+        <pre><code>cat secret.txt | python3 scripts/redact.py --stdin --json
+python3 scripts/redact.py --input ./note.md --output ./note.redacted.md</code></pre>
+      </div>
+
+      <div id="lang-zh" class="lang">
+        <h2>它是做什么的</h2>
+        <p><strong>local-privacy-guard</strong> 的核心用途，是帮助 OpenClaw 用户在把内容发给外部模型、分享日志、导出笔记或贴出调试信息之前，先在本地保护隐私。</p>
+        <p>它的目标非常克制：只做一件事——在零联网、默认安全的前提下，把高置信度敏感值替换掉。</p>
+
+        <h3>安全模型</h3>
+        <ul>
+          <li>主流程零网络 I/O</li>
+          <li>默认不可逆</li>
+          <li>默认 JSON 不包含原始敏感值</li>
+          <li>默认不输出上下文预览</li>
+          <li>不显式指定输出就不写文件</li>
+          <li>v1 不依赖第三方运行时依赖</li>
+        </ul>
+
+        <h3>支持输入</h3>
+        <ul>
+          <li>stdin</li>
+          <li>UTF-8 / UTF-8 BOM 的 <code>.txt</code>、<code>.md</code>、<code>.json</code>、<code>.csv</code>、<code>.tsv</code></li>
+        </ul>
+
+        <h3>快速开始</h3>
+        <pre><code>cat secret.txt | python3 scripts/redact.py --stdin --json
+python3 scripts/redact.py --input ./note.md --output ./note.redacted.md</code></pre>
+      </div>
+    </section>
+
+    <p class="note">v0.1.2 — language-toggle page and OpenClaw-focused positioning.</p>
+  </div>
+
+  <script>
+    const btnEn = document.getElementById('btn-en');
+    const btnZh = document.getElementById('btn-zh');
+    const en = document.getElementById('lang-en');
+    const zh = document.getElementById('lang-zh');
+    const sub = document.querySelector('.sub');
+
+    function setLang(lang) {
+      const isEn = lang === 'en';
+      en.classList.toggle('active', isEn);
+      zh.classList.toggle('active', !isEn);
+      btnEn.classList.toggle('active', isEn);
+      btnZh.classList.toggle('active', !isEn);
+      sub.textContent = isEn ? sub.dataset.en : sub.dataset.zh;
+      document.documentElement.lang = isEn ? 'en' : 'zh';
+      localStorage.setItem('lpg-lang', lang);
+    }
+
+    btnEn.addEventListener('click', () => setLang('en'));
+    btnZh.addEventListener('click', () => setLang('zh'));
+    setLang(localStorage.getItem('lpg-lang') || 'en');
+  </script>
+</body>
+</html>

@@ -10,5 +10,7 @@
 - generated logo with Nano Banana Pro
 - upgraded README and docs page to bilingual EN/ZH version
 - added stable logo paths for GitHub repo and Pages
+- corrected project positioning to be explicitly OpenClaw-user-first
+- replaced mixed-language page copy with click-switch bilingual landing page
 
 #huanyuan

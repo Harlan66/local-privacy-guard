@@ -2,6 +2,12 @@
 
 All notable changes to `local-privacy-guard` will be documented in this file.
 
+## 0.1.2 - 2026-03-11
+
+- rewrote project positioning to focus explicitly on OpenClaw users
+- replaced mixed bilingual copy with language-separated README sections
+- added click-to-switch bilingual GitHub Pages landing page (`docs/index.html`)
+
 ## 0.1.1 - 2026-03-11
 
 - added generated project logo via Nano Banana Pro

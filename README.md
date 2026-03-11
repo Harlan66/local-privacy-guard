@@ -4,22 +4,35 @@
 
 # local-privacy-guard
 
-**EN** — Pure-local privacy redaction for text and simple text files.  
-**中文** — 一个纯本地、零联网、面向文本与简单文本文件的隐私脱敏工具。
+Pure-local privacy redaction for **OpenClaw users**.
+
+**Language / 语言**
+- [English](#english)
+- [中文](#中文)
 
 ---
 
 ## English
 
-### What it is
+### What this is
 
-`local-privacy-guard` is a minimal, auditable privacy-redaction skill and Python CLI designed for one job:
+`local-privacy-guard` is a minimal, auditable privacy-redaction skill and Python CLI built for **OpenClaw users** who want to protect sensitive text **before sending content to external models, sharing logs, exporting notes, or posting debugging output**.
 
-> replace high-confidence sensitive values locally, with zero network access and safe defaults.
+In one line:
+
+> it helps OpenClaw users redact high-confidence sensitive values locally, with zero network access and safe defaults.
 
 ### Why it exists
 
-Most privacy tools optimize for coverage and convenience. This project optimizes for:
+OpenClaw users often need to:
+- paste logs into chats
+- send prompts to external models
+- share notes or transcripts
+- export debugging material
+
+That creates one recurring risk: **private information leaves the machine too easily**.
+
+This project exists to reduce that risk with a narrow, auditable tool that prioritizes:
 
 - local-only execution
 - default-irreversible redaction
@@ -27,7 +40,7 @@ Most privacy tools optimize for coverage and convenience. This project optimizes
 - no surrounding-context preview in default output
 - no persistent side effects by default
 - no third-party runtime dependencies in v1
-- small enough to audit by hand
+- code small enough to audit by hand
 
 ### Security invariants
 
@@ -135,23 +148,6 @@ python3 scripts/redact.py --input ./note.md --json --output ./note.redacted.json
 python3 -m unittest discover -s tests -v
 ```
 
-### Repository structure
-
-```text
-local-privacy-guard/
-├── SKILL.md
-├── README.md
-├── CHANGELOG.md
-├── SECURITY.md
-├── LICENSE.txt
-├── .gitignore
-├── assets/
-├── docs/
-├── core/
-├── scripts/
-└── tests/
-```
-
 ### GitHub Pages
 
 - Project site: <https://harlan66.github.io/local-privacy-guard/>
@@ -166,21 +162,31 @@ MIT.
 
 ### 这是什么
 
-`local-privacy-guard` 是一个最小化、可审计的隐私脱敏 skill + Python CLI，目标非常单一：
+`local-privacy-guard` 是一个为 **OpenClaw 用户**设计的、最小化且可审计的隐私脱敏 skill + Python CLI。
 
-> 在完全本地、零联网、默认安全的前提下，把高置信度敏感信息替换掉。
+它的核心用途不是“做一个泛用脱敏库”，而是：
+
+> 帮 OpenClaw 用户在把内容发给外部模型、分享日志、导出笔记或贴出调试信息之前，先在本地把高置信度敏感值替换掉。
 
 ### 为什么做它
 
-大多数隐私工具追求的是“覆盖更多、用起来更方便”；这个项目追求的是：
+OpenClaw 用户很常见的动作是：
+- 把日志贴到对话里
+- 把提示词发给外部模型
+- 分享笔记、转录或排障材料
+- 导出调试内容给别人看
+
+真正的问题不复杂：**私人信息太容易离开本机**。
+
+这个项目就是为了解决这个问题，而且只解决这个问题。它优先追求：
 
 - 纯本地执行
 - 默认不可逆脱敏
 - 默认 JSON 不包含原始敏感值
-- 默认不输出上下文片段预览
+- 默认不输出上下文预览
 - 默认不产生持久化副产物
 - v1 不依赖第三方运行时依赖
-- 代码体量足够小，便于人工审计
+- 代码足够小，方便人工审计
 
 ### 安全不变量
 
